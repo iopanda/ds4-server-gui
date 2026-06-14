@@ -208,9 +208,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         serverManager.restart()
     }
 
+    private var copyFeedbackTimer: Timer?
+
     @objc private func copyAPIURL() {
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString("http://127.0.0.1:\(Settings.shared.port)", forType: .string)
+
+        // Show brief "✓ Copied!" feedback in the menu item
+        copyFeedbackTimer?.invalidate()
+        if let menu = statusBarItem?.menu,
+           let item = menu.items.first(where: { $0.action == #selector(copyAPIURL) }) {
+            item.title = L("menu.copied")
+            copyFeedbackTimer = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false) { [weak self] _ in
+                item.title = L("menu.copy_url", Settings.shared.port)
+                self?.copyFeedbackTimer = nil
+            }
+        }
     }
 
     @objc private func openSettings() {

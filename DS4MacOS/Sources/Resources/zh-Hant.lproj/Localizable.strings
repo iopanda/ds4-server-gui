@@ -9,6 +9,7 @@
 "menu.stop" = "停止伺服器";
 "menu.restart" = "重新啟動伺服器";
 "menu.copy_url" = "http://127.0.0.1:%d  （點擊複製）";
+"menu.copied" = "✓ 已複製！";
 "menu.settings" = "設定...";
 "menu.logs" = "查看日誌";
 "menu.quit" = "結束";

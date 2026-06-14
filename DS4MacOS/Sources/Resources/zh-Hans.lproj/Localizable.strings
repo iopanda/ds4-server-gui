@@ -9,6 +9,7 @@
 "menu.stop" = "停止服务器";
 "menu.restart" = "重启服务器";
 "menu.copy_url" = "http://127.0.0.1:%d  (点击复制)";
+"menu.copied" = "✓ 已复制！";
 "menu.settings" = "设置...";
 "menu.logs" = "查看日志";
 "menu.quit" = "退出";

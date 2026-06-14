@@ -9,6 +9,7 @@
 "menu.stop" = "サーバーを停止";
 "menu.restart" = "サーバーを再起動";
 "menu.copy_url" = "http://127.0.0.1:%d  （クリックしてコピー）";
+"menu.copied" = "✓ コピーしました！";
 "menu.settings" = "設定...";
 "menu.logs" = "ログを表示";
 "menu.quit" = "終了";

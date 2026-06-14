@@ -9,6 +9,7 @@
 "menu.stop" = "Stop Server";
 "menu.restart" = "Restart Server";
 "menu.copy_url" = "http://127.0.0.1:%d  (click to copy)";
+"menu.copied" = "✓ Copied!";
 "menu.settings" = "Settings…";
 "menu.logs" = "View Logs";
 "menu.quit" = "Quit";
