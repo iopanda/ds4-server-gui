@@ -14,28 +14,69 @@
 "menu.logs" = "View Logs";
 "menu.quit" = "Quit";
 
-/* SettingsWindowController */
+/* Settings Window - Tabs */
 "settings.window.title" = "DS4 Server Settings";
-"settings.label.model_path" = "Model Path (.gguf):";
-"settings.label.port" = "Listen Port:";
-"settings.label.host" = "Listen Host:";
-"settings.label.ctx" = "Context (tokens):";
-"settings.label.kv_cache" = "KV Cache Dir:";
-"settings.label.kv_size" = "KV Cache (MB):";
-"settings.label.gpu_power" = "GPU Power:";
-"settings.checkbox.disk_kv" = "Enable Disk KV Cache (recommended, faster multi-session)";
-"settings.checkbox.cors" = "Enable CORS (allow browser cross-origin access)";
-"settings.checkbox.nothink" = "Disable Thinking Mode (--nothink)";
+"settings.tab.server" = "Server";
+"settings.tab.performance" = "Performance";
+"settings.tab.storage" = "Session Cache";
+
+/* Settings - Groups */
+"settings.group.model" = "Model File";
+"settings.group.network" = "Network";
+"settings.group.system" = "System";
+"settings.group.context" = "Context & Thinking";
+"settings.group.gpu" = "GPU Power Limit";
+"settings.group.ssd" = "Memory Saving";
+"settings.group.kv" = "Session Cache (Disk KV)";
+"settings.group.info" = "About Session Cache";
+
+/* Settings - Labels */
+"settings.label.port" = "Port";
+"settings.label.host" = "Bind Address";
+"settings.label.ctx_short" = "Max Context Length";
+"settings.label.kv_cache" = "Cache Folder";
+"settings.label.kv_size_short" = "Max Cache Size";
+"settings.label.ssd_cache_short" = "Hot Model Cache";
+"settings.label.advanced" = "Advanced:";
+
+/* Settings - Descriptions */
+"settings.desc.model" = "Select the .gguf model file to load at startup.";
+"settings.desc.power" = "Limit GPU usage to reduce heat and fan noise. Lower = cooler but slower.";
+"settings.desc.ssd" = "Loads model weights from SSD on demand. Uses far less RAM, but may be slower.";
+"settings.desc.kv" = "Saves conversation context to disk so the server can resume sessions faster.";
+
+/* Settings - Hints */
+"settings.hint.port" = "Default: 8000";
+"settings.hint.host" = "0.0.0.0 = all interfaces";
+"settings.hint.launch_at_login" = "Automatically start DS4 Server when you log in.";
+"settings.hint.ctx" = "Longer context uses more memory. Default: 32768 tokens (~25,000 words).";
+"settings.hint.ssd_cache" = "GB to keep hot. Leave blank for auto.";
+"settings.hint.kv_size" = "MB on disk. Default: 8192 MB (8 GB)";
+"settings.hint.kv_path" = "Leave blank to use the default location (~/.ds4/kvcache).";
+
+/* Settings - Placeholders */
+"settings.placeholder.model" = "No model selected — click Browse…";
+"settings.placeholder.kv_dir" = "Default: ~/.ds4/kvcache";
+"settings.placeholder.ssd_cache" = "auto";
+
+/* Settings - Checkboxes */
+"settings.checkbox.cors_short" = "Allow browser access (CORS)";
+"settings.checkbox.launch_at_login_short" = "Launch DS4 Server at login";
 "settings.checkbox.launch_at_login" = "Launch at Login";
+"settings.checkbox.nothink_short" = "Direct answers only — disable extended thinking";
+"settings.checkbox.disk_kv_short" = "Enable session cache (recommended)";
+"settings.checkbox.ssd_short" = "Low-memory mode — stream model from SSD";
 "settings.checkbox.ssd_streaming" = "Enable SSD Streaming (saves GPU memory, slower)";
-"settings.label.ssd_cache" = "SSD Cache (GB):";
-"settings.label.threads" = "CPU Threads:";
-"settings.label.prefill_chunk" = "Prefill Chunk:";
+
+/* Settings - Buttons */
 "settings.button.browse" = "Browse…";
 "settings.button.apply" = "Save & Apply";
 "settings.button.cancel" = "Cancel";
 "settings.panel.model" = "Select Model File (.gguf)";
-"settings.panel.kv_dir" = "Select KV Cache Directory";
+"settings.panel.kv_dir" = "Select Session Cache Directory";
+
+/* Settings - Info */
+"settings.info.kv" = "Session cache stores your conversation history on disk. When you start a new conversation with the same context, the server can skip re-reading the prompt and respond faster.";
 
 /* LogWindowController */
 "log.window.title" = "DS4 Server Logs";

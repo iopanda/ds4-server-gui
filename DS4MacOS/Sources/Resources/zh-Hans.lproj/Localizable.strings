@@ -13,34 +13,53 @@
 "menu.settings" = "设置...";
 "menu.logs" = "查看日志";
 "menu.quit" = "退出";
-
-/* SettingsWindowController */
 "settings.window.title" = "DS4 Server 设置";
-"settings.label.model_path" = "模型路径 (.gguf):";
-"settings.label.port" = "监听端口:";
-"settings.label.host" = "监听地址:";
-"settings.label.ctx" = "上下文 (tokens):";
-"settings.label.kv_cache" = "KV 缓存目录:";
-"settings.label.kv_size" = "KV 缓存 (MB):";
-"settings.label.gpu_power" = "GPU 功率:";
-"settings.checkbox.disk_kv" = "启用磁盘 KV 缓存（推荐，提升多会话速度）";
-"settings.checkbox.cors" = "启用 CORS（允许浏览器跨域访问）";
-"settings.checkbox.nothink" = "禁用 Thinking 模式 (--nothink)";
+"settings.tab.server" = "服务器";
+"settings.tab.performance" = "性能";
+"settings.tab.storage" = "会话缓存";
+"settings.group.model" = "模型文件";
+"settings.group.network" = "网络";
+"settings.group.system" = "系统";
+"settings.group.context" = "上下文与思考";
+"settings.group.gpu" = "GPU 功率限制";
+"settings.group.ssd" = "省内存模式";
+"settings.group.kv" = "会话缓存（磁盘 KV）";
+"settings.group.info" = "关于会话缓存";
+"settings.label.port" = "端口";
+"settings.label.host" = "监听地址";
+"settings.label.ctx_short" = "最大上下文长度";
+"settings.label.kv_cache" = "缓存目录";
+"settings.label.kv_size_short" = "最大缓存大小";
+"settings.label.ssd_cache_short" = "热模型缓存";
+"settings.label.advanced" = "高级：";
+"settings.desc.model" = "选择启动时加载的 .gguf 模型文件。";
+"settings.desc.power" = "限制 GPU 使用率，减少发热和风扇噪音。越低越凉快，但速度越慢。";
+"settings.desc.ssd" = "按需从 SSD 加载模型权重，大幅降低内存占用，但速度可能略慢。";
+"settings.desc.kv" = "将对话上下文保存到磁盘，服务器重启后可以快速恢复会话。";
+"settings.hint.port" = "默认：8000";
+"settings.hint.host" = "0.0.0.0 = 所有网卡";
+"settings.hint.launch_at_login" = "登录 Mac 时自动启动 DS4 Server。";
+"settings.hint.ctx" = "上下文越长占用内存越多。默认：32768 tokens（约 25000 字）。";
+"settings.hint.ssd_cache" = "GB，保留热点模型。留空自动。";
+"settings.hint.kv_size" = "磁盘占用 MB。默认：8192 MB（8 GB）";
+"settings.hint.kv_path" = "留空使用默认路径（~/.ds4/kvcache）。";
+"settings.placeholder.model" = "未选择模型文件 — 点击「选择…」";
+"settings.placeholder.kv_dir" = "默认：~/.ds4/kvcache";
+"settings.placeholder.ssd_cache" = "自动";
+"settings.checkbox.cors_short" = "允许浏览器访问（CORS）";
+"settings.checkbox.launch_at_login_short" = "登录时自动启动 DS4 Server";
 "settings.checkbox.launch_at_login" = "开机自动启动";
+"settings.checkbox.nothink_short" = "仅直接回答，禁用深度思考";
+"settings.checkbox.disk_kv_short" = "启用会话缓存（推荐）";
+"settings.checkbox.ssd_short" = "省内存模式 — 从 SSD 流式加载模型";
 "settings.checkbox.ssd_streaming" = "启用 SSD 流式加载（节省显存，速度略慢）";
-"settings.label.ssd_cache" = "SSD 缓存 (GB):";
-"settings.label.threads" = "CPU 线程数:";
-"settings.label.prefill_chunk" = "Prefill 块大小:";
 "settings.button.browse" = "选择…";
 "settings.button.apply" = "保存并应用";
 "settings.button.cancel" = "取消";
 "settings.panel.model" = "选择模型文件 (.gguf)";
-"settings.panel.kv_dir" = "选择 KV 缓存目录";
-
-/* LogWindowController */
+"settings.panel.kv_dir" = "选择会话缓存目录";
+"settings.info.kv" = "会话缓存会把对话历史保存到磁盘。下次用相同上下文开始对话时，服务器可以跳过重读提示词，直接响应，速度更快。";
 "log.window.title" = "DS4 Server 日志";
-
-/* ModelSetupWindowController */
 "setup.window.title" = "DS4 – 选择模型";
 "setup.title" = "需要选择模型文件";
 "setup.desc" = "请选择一个 .gguf 模型文件以启动服务器。";
@@ -50,8 +69,6 @@
 "setup.button.cancel" = "取消";
 "setup.button.browse" = "选择模型文件…";
 "setup.panel.select" = "选择 GGUF 模型文件";
-
-/* ServerManager - error status (UI-facing) */
 "server.error.model_invalid" = "模型文件无效或不存在：%@";
 "server.error.metal_missing" = "找不到 Metal shader 资源目录";
 "server.error.unexpected_exit" = "服务器意外退出 (code=%d)";
