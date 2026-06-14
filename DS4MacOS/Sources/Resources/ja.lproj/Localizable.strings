@@ -1,0 +1,52 @@
+/* AppDelegate - Menu */
+"menu.title" = "DS4 Server";
+"menu.status.stopped" = "状態：停止中";
+"menu.status.starting" = "状態：起動中...";
+"menu.status.running" = "状態：実行中 (:%d)";
+"menu.status.error" = "状態：エラー - %@";
+"menu.starting" = "起動中...";
+"menu.start" = "サーバーを起動";
+"menu.stop" = "サーバーを停止";
+"menu.restart" = "サーバーを再起動";
+"menu.copy_url" = "http://127.0.0.1:%d  （クリックしてコピー）";
+"menu.settings" = "設定...";
+"menu.logs" = "ログを表示";
+"menu.quit" = "終了";
+
+/* SettingsWindowController */
+"settings.window.title" = "DS4 Server 設定";
+"settings.label.model_path" = "モデルパス (.gguf):";
+"settings.label.port" = "リッスンポート:";
+"settings.label.host" = "リッスンアドレス:";
+"settings.label.ctx" = "コンテキスト (tokens):";
+"settings.label.kv_cache" = "KV キャッシュディレクトリ:";
+"settings.label.kv_size" = "KV キャッシュ (MB):";
+"settings.label.gpu_power" = "GPU パワー:";
+"settings.checkbox.disk_kv" = "ディスク KV キャッシュを有効にする（推奨）";
+"settings.checkbox.cors" = "CORS を有効にする（ブラウザのクロスオリジンアクセスを許可）";
+"settings.checkbox.nothink" = "Thinking モードを無効にする (--nothink)";
+"settings.button.browse" = "選択…";
+"settings.button.apply" = "保存して適用";
+"settings.button.cancel" = "キャンセル";
+"settings.panel.model" = "モデルファイルを選択 (.gguf)";
+"settings.panel.kv_dir" = "KV キャッシュディレクトリを選択";
+
+/* LogWindowController */
+"log.window.title" = "DS4 Server ログ";
+
+/* ModelSetupWindowController */
+"setup.window.title" = "DS4 – モデルを選択";
+"setup.title" = "モデルファイルが必要です";
+"setup.desc" = "サーバーを起動するには .gguf モデルファイルを選択してください。";
+"setup.reason.first_launch" = "モデルファイルが設定されていません。ローカルの .gguf ファイルを選択してください。";
+"setup.reason.not_found" = "設定されたモデルファイルが存在しないか無効です：\n%@\n\n別のファイルを選択してください。";
+"setup.reason.load_error" = "モデルの読み込みに失敗しました：%@\n\n別のモデルファイルを選択してください。";
+"setup.button.cancel" = "キャンセル";
+"setup.button.browse" = "モデルファイルを選択…";
+"setup.panel.select" = "GGUF モデルファイルを選択";
+
+/* ServerManager - error status (UI-facing) */
+"server.error.model_invalid" = "モデルファイルが無効または見つかりません：%@";
+"server.error.metal_missing" = "Metal シェーダーリソースディレクトリが見つかりません";
+"server.error.unexpected_exit" = "サーバーが予期せず終了しました (code=%d)";
+"server.error.start_failed" = "起動に失敗しました (code=%d)";

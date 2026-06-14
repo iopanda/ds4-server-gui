@@ -1,0 +1,39 @@
+# ===== macOS =====
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# ===== Xcode =====
+*.xcuserstate
+xcuserdata/
+*.moved-aside
+*.xccheckout
+*.xcscmblueprint
+DerivedData/
+
+# ===== Swift Package Manager =====
+DS4MacOS/.build/
+DS4MacOS/build/
+.swiftpm/
+
+# ===== Build Artifacts =====
+*.o
+*.d
+*.hmap
+*.ipa
+*.dSYM/
+
+# ===== Code Signing =====
+*.mobileprovision
+*.certSigningRequest
+*.p12
+
+# ===== Model Files (large binary, should not be committed) =====
+*.gguf
+*.ggml
+*.bin
+
+# ===== Logs =====
+*.log
+.claude/

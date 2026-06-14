@@ -1,0 +1,52 @@
+/* AppDelegate - Menu */
+"menu.title" = "DS4 Server";
+"menu.status.stopped" = "Status: Stopped";
+"menu.status.starting" = "Status: Starting…";
+"menu.status.running" = "Status: Running (:%d)";
+"menu.status.error" = "Status: Error - %@";
+"menu.starting" = "Starting…";
+"menu.start" = "Start Server";
+"menu.stop" = "Stop Server";
+"menu.restart" = "Restart Server";
+"menu.copy_url" = "http://127.0.0.1:%d  (click to copy)";
+"menu.settings" = "Settings…";
+"menu.logs" = "View Logs";
+"menu.quit" = "Quit";
+
+/* SettingsWindowController */
+"settings.window.title" = "DS4 Server Settings";
+"settings.label.model_path" = "Model Path (.gguf):";
+"settings.label.port" = "Listen Port:";
+"settings.label.host" = "Listen Host:";
+"settings.label.ctx" = "Context (tokens):";
+"settings.label.kv_cache" = "KV Cache Dir:";
+"settings.label.kv_size" = "KV Cache (MB):";
+"settings.label.gpu_power" = "GPU Power:";
+"settings.checkbox.disk_kv" = "Enable Disk KV Cache (recommended, faster multi-session)";
+"settings.checkbox.cors" = "Enable CORS (allow browser cross-origin access)";
+"settings.checkbox.nothink" = "Disable Thinking Mode (--nothink)";
+"settings.button.browse" = "Browse…";
+"settings.button.apply" = "Save & Apply";
+"settings.button.cancel" = "Cancel";
+"settings.panel.model" = "Select Model File (.gguf)";
+"settings.panel.kv_dir" = "Select KV Cache Directory";
+
+/* LogWindowController */
+"log.window.title" = "DS4 Server Logs";
+
+/* ModelSetupWindowController */
+"setup.window.title" = "DS4 – Select Model";
+"setup.title" = "Model File Required";
+"setup.desc" = "Please select a .gguf model file to start the server.";
+"setup.reason.first_launch" = "No model file has been configured. Please select a local .gguf file.";
+"setup.reason.not_found" = "The configured model file does not exist or is invalid:\n%@\n\nPlease select another file.";
+"setup.reason.load_error" = "Failed to load model: %@\n\nPlease select a different model file.";
+"setup.button.cancel" = "Cancel";
+"setup.button.browse" = "Select Model File…";
+"setup.panel.select" = "Select GGUF Model File";
+
+/* ServerManager - error status (UI-facing) */
+"server.error.model_invalid" = "Model file invalid or not found: %@";
+"server.error.metal_missing" = "Metal shader resources not found";
+"server.error.unexpected_exit" = "Server exited unexpectedly (code=%d)";
+"server.error.start_failed" = "Start failed (code=%d)";

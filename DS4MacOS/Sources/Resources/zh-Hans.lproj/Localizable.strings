@@ -1,0 +1,52 @@
+/* AppDelegate - Menu */
+"menu.title" = "DS4 Server";
+"menu.status.stopped" = "状态：已停止";
+"menu.status.starting" = "状态：正在启动...";
+"menu.status.running" = "状态：运行中 (:%d)";
+"menu.status.error" = "状态：错误 - %@";
+"menu.starting" = "正在启动...";
+"menu.start" = "启动服务器";
+"menu.stop" = "停止服务器";
+"menu.restart" = "重启服务器";
+"menu.copy_url" = "http://127.0.0.1:%d  (点击复制)";
+"menu.settings" = "设置...";
+"menu.logs" = "查看日志";
+"menu.quit" = "退出";
+
+/* SettingsWindowController */
+"settings.window.title" = "DS4 Server 设置";
+"settings.label.model_path" = "模型路径 (.gguf):";
+"settings.label.port" = "监听端口:";
+"settings.label.host" = "监听地址:";
+"settings.label.ctx" = "上下文 (tokens):";
+"settings.label.kv_cache" = "KV 缓存目录:";
+"settings.label.kv_size" = "KV 缓存 (MB):";
+"settings.label.gpu_power" = "GPU 功率:";
+"settings.checkbox.disk_kv" = "启用磁盘 KV 缓存（推荐，提升多会话速度）";
+"settings.checkbox.cors" = "启用 CORS（允许浏览器跨域访问）";
+"settings.checkbox.nothink" = "禁用 Thinking 模式 (--nothink)";
+"settings.button.browse" = "选择…";
+"settings.button.apply" = "保存并应用";
+"settings.button.cancel" = "取消";
+"settings.panel.model" = "选择模型文件 (.gguf)";
+"settings.panel.kv_dir" = "选择 KV 缓存目录";
+
+/* LogWindowController */
+"log.window.title" = "DS4 Server 日志";
+
+/* ModelSetupWindowController */
+"setup.window.title" = "DS4 – 选择模型";
+"setup.title" = "需要选择模型文件";
+"setup.desc" = "请选择一个 .gguf 模型文件以启动服务器。";
+"setup.reason.first_launch" = "尚未配置模型文件，请选择一个本地 .gguf 文件。";
+"setup.reason.not_found" = "配置的模型文件不存在或无效：\n%@\n\n请重新选择。";
+"setup.reason.load_error" = "模型加载失败：%@\n\n请选择其他模型文件。";
+"setup.button.cancel" = "取消";
+"setup.button.browse" = "选择模型文件…";
+"setup.panel.select" = "选择 GGUF 模型文件";
+
+/* ServerManager - error status (UI-facing) */
+"server.error.model_invalid" = "模型文件无效或不存在：%@";
+"server.error.metal_missing" = "找不到 Metal shader 资源目录";
+"server.error.unexpected_exit" = "服务器意外退出 (code=%d)";
+"server.error.start_failed" = "启动失败 (code=%d)";

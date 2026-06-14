@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Mac App Store 强制要求开启 App Sandbox -->
+    <key>com.apple.security.app-sandbox</key>
+    <true/>
+
+    <!-- 网络：作为服务器监听端口（本地 LLM API 服务） -->
+    <key>com.apple.security.network.server</key>
+    <true/>
+
+    <!-- 网络：下载模型文件需要访问外网 -->
+    <key>com.apple.security.network.client</key>
+    <true/>
+
+    <!-- 文件访问：用户选择的模型文件（通过 NSOpenPanel/NSSavePanel 授权） -->
+    <key>com.apple.security.files.user-selected.read-write</key>
+    <true/>
+
+    <!-- 文件访问：KV 缓存目录（~/.ds4/kvcache，需要 Downloads 或 bookmarks） -->
+    <key>com.apple.security.files.downloads.read-write</key>
+    <true/>
+</dict>
+</plist>

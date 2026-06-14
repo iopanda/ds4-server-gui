@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Debug build: 不开启 Sandbox，方便本地开发和测试 -->
+    <key>com.apple.security.get-task-allow</key>
+    <true/>
+</dict>
+</plist>
