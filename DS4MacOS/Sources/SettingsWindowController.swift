@@ -15,11 +15,12 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
     private var kvSizeField: NSTextField!
     private var corsCheck: NSButton!
     private var noThinkCheck: NSButton!
+    private var launchAtLoginCheck: NSButton!
     private var powerSlider: NSSlider!
     private var powerLabel: NSTextField!
 
     private let W: CGFloat = 480
-    private let H: CGFloat = 460
+    private let H: CGFloat = 492
     private let pad: CGFloat  = 20
     private let labelW: CGFloat = 140
     private let gap: CGFloat  = 8
@@ -135,6 +136,9 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
         y -= 28
 
         noThinkCheck = checkbox(L("settings.checkbox.nothink"), at: y)
+        y -= 28
+
+        launchAtLoginCheck = checkbox(L("settings.checkbox.launch_at_login"), at: y)
         y -= 34
 
         label(L("settings.label.gpu_power"), at: y)
@@ -178,6 +182,7 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
         kvSizeField.stringValue     = String(s.kvDiskSpaceMB)
         corsCheck.state             = s.enableCORS ? .on : .off
         noThinkCheck.state          = s.noThink ? .on : .off
+        launchAtLoginCheck.state    = LaunchAtLoginManager.shared.isEnabled ? .on : .off
         powerSlider.doubleValue     = Double(s.powerPercent)
         powerLabel.stringValue      = "\(s.powerPercent)%"
     }
@@ -193,6 +198,7 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
         s.kvDiskSpaceMB = Int(kvSizeField.stringValue) ?? 8192
         s.enableCORS    = corsCheck.state == .on
         s.noThink       = noThinkCheck.state == .on
+        LaunchAtLoginManager.shared.setEnabled(launchAtLoginCheck.state == .on)
         s.powerPercent  = Int(powerSlider.doubleValue)
     }
 

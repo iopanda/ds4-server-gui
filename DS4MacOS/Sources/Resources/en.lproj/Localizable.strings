@@ -25,6 +25,7 @@
 "settings.checkbox.disk_kv" = "Enable Disk KV Cache (recommended, faster multi-session)";
 "settings.checkbox.cors" = "Enable CORS (allow browser cross-origin access)";
 "settings.checkbox.nothink" = "Disable Thinking Mode (--nothink)";
+"settings.checkbox.launch_at_login" = "Launch at Login";
 "settings.button.browse" = "Browse…";
 "settings.button.apply" = "Save & Apply";
 "settings.button.cancel" = "Cancel";

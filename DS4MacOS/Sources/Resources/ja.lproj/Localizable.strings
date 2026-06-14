@@ -25,6 +25,7 @@
 "settings.checkbox.disk_kv" = "ディスク KV キャッシュを有効にする（推奨）";
 "settings.checkbox.cors" = "CORS を有効にする（ブラウザのクロスオリジンアクセスを許可）";
 "settings.checkbox.nothink" = "Thinking モードを無効にする (--nothink)";
+"settings.checkbox.launch_at_login" = "ログイン時に起動";
 "settings.button.browse" = "選択…";
 "settings.button.apply" = "保存して適用";
 "settings.button.cancel" = "キャンセル";

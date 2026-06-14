@@ -25,6 +25,7 @@
 "settings.checkbox.disk_kv" = "启用磁盘 KV 缓存（推荐，提升多会话速度）";
 "settings.checkbox.cors" = "启用 CORS（允许浏览器跨域访问）";
 "settings.checkbox.nothink" = "禁用 Thinking 模式 (--nothink)";
+"settings.checkbox.launch_at_login" = "开机自动启动";
 "settings.button.browse" = "选择…";
 "settings.button.apply" = "保存并应用";
 "settings.button.cancel" = "取消";

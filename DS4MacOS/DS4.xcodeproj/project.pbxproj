@@ -38,6 +38,7 @@
 		AF0DD7D9BC0F442E9FA0D930 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 76C3057D03594A2D81E859D0 /* Localizable.strings */; };
 		AF1F75BA7F014BE9A85418DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1188F867B3F44EDD8C1B17D0 /* AppDelegate.swift */; };
 		B288C09478CD4633B53DB17B /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1155FAEF81FC4FAF86522595 /* Settings.swift */; };
+		FF66EE55DD44CC33BB22AA11 /* LaunchAtLoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA11BB22CC33DD44EE55FF66 /* LaunchAtLoginManager.swift */; };
 		BCC7E6E396234BC999B11C5D /* norm.metal in Copy Metal Shaders */ = {isa = PBXBuildFile; fileRef = A49D88A50D864AB9B45A4BFF /* norm.metal */; };
 		BDD2987126B4484EB4F86071 /* repeat.metal in Copy Metal Shaders */ = {isa = PBXBuildFile; fileRef = FFE53ABF481C457E933E1896 /* repeat.metal */; };
 		C442BEE1C97F4953B6875A24 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE4CF016D7A4CE8BAB47C63 /* main.swift */; };
@@ -48,6 +49,7 @@
 		F94FD57E5B7F4A4388FE6D82 /* ds4_metal.m in Sources */ = {isa = PBXBuildFile; fileRef = D8ECA74BEF64449F939DF195 /* ds4_metal.m */; settings = {COMPILER_FLAGS = "-DS4_SERVER_TEST_NO_MAIN -O3 -ffast-math -Wall -Wextra -std=c99 -Wno-unused-parameter -Wno-unused-variable -Wno-sign-compare"; }; };
 		002D8CABFA444207B8DA13A5 = {isa = PBXBuildFile; fileRef = 03D0B52B73E145C3B9AB1513 /* Assets.xcassets */; };
 		F8C1AC82A3E04BD2B21B9F90 = {isa = PBXBuildFile; fileRef = EBBCFD84B71D435DAC119639 /* AppIcon.icns */; };
+		DDCCBBAA44332211DDCCBBAA /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABBCCDD11223344AABBCCDD /* ServiceManagement.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -88,6 +90,7 @@
 		0DE4CF016D7A4CE8BAB47C63 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = main.swift; path = Sources/main.swift; sourceTree = SOURCE_ROOT; };
 		0F056445687C41AC84393A63 /* ds4_help.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ds4_help.c; path = "ds4-engine/Sources/ds4engine/ds4_help.c"; sourceTree = SOURCE_ROOT; };
 		1155FAEF81FC4FAF86522595 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Settings.swift; path = Sources/Settings.swift; sourceTree = SOURCE_ROOT; };
+		AA11BB22CC33DD44EE55FF66 /* LaunchAtLoginManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LaunchAtLoginManager.swift; path = Sources/LaunchAtLoginManager.swift; sourceTree = SOURCE_ROOT; };
 		1188F867B3F44EDD8C1B17D0 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Sources/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
 		20B10D2EFB9743409C56E5AC /* dsv4_misc.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsv4_misc.metal; path = "ds4-engine/Sources/ds4engine/metal/dsv4_misc.metal"; sourceTree = SOURCE_ROOT; };
 		27C95AEB3CF945188B08DC9B /* ds4.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ds4.c; path = "ds4-engine/Sources/ds4engine/ds4.c"; sourceTree = SOURCE_ROOT; };
@@ -135,6 +138,7 @@
 		FFE53ABF481C457E933E1896 /* repeat.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = repeat.metal; path = "ds4-engine/Sources/ds4engine/metal/repeat.metal"; sourceTree = SOURCE_ROOT; };
 		03D0B52B73E145C3B9AB1513 = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "Assets.xcassets"; path = "Sources/Assets.xcassets"; sourceTree = SOURCE_ROOT; };
 		EBBCFD84B71D435DAC119639 = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "AppIcon.icns"; path = "Sources/AppIcon.icns"; sourceTree = SOURCE_ROOT; };
+		AABBCCDD11223344AABBCCDD /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -262,6 +266,7 @@
 				3FDA6F580DA649AB9D5E025C /* ModelSetupWindowController.swift */,
 				44D0BD1F5CFD469ABF592CB5 /* ServerManager.swift */,
 				1155FAEF81FC4FAF86522595 /* Settings.swift */,
+				AA11BB22CC33DD44EE55FF66 /* LaunchAtLoginManager.swift */,
 				ACA62DCDFD28450FA6956E76 /* SettingsWindowController.swift */,
 				0DE4CF016D7A4CE8BAB47C63 /* main.swift */,
 			);
@@ -370,6 +375,7 @@
 				2791E2B6E8AD4B5B9278E80D /* ModelSetupWindowController.swift in Sources */,
 				2AA62147EAEA44BFB348F154 /* ServerManager.swift in Sources */,
 				B288C09478CD4633B53DB17B /* Settings.swift in Sources */,
+				FF66EE55DD44CC33BB22AA11 /* LaunchAtLoginManager.swift in Sources */,
 				4A02EA65745942FDA8371431 /* SettingsWindowController.swift in Sources */,
 				C442BEE1C97F4953B6875A24 /* main.swift in Sources */,
 				78E07086B9C04137A5D9AE17 /* ds4.c in Sources */,

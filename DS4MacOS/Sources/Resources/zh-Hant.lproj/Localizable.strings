@@ -25,6 +25,7 @@
 "settings.checkbox.disk_kv" = "啟用磁碟 KV 快取（建議，提升多工作階段速度）";
 "settings.checkbox.cors" = "啟用 CORS（允許瀏覽器跨來源存取）";
 "settings.checkbox.nothink" = "停用 Thinking 模式 (--nothink)";
+"settings.checkbox.launch_at_login" = "登入時自動啟動";
 "settings.button.browse" = "選擇…";
 "settings.button.apply" = "儲存並套用";
 "settings.button.cancel" = "取消";
