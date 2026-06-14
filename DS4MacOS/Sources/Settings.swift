@@ -23,6 +23,12 @@ final class Settings {
                 migrated = true
             }
         }
+        // Fix incorrect default: ctxSize was mistakenly defaulted to 100000 instead of 32768.
+        // Reset silently if the user never changed it from that bad default.
+        if newD.integer(forKey: Key.ctxSize) == 100000 {
+            newD.set(32768, forKey: Key.ctxSize)
+            migrated = true
+        }
         if migrated { newD.synchronize() }
     }
 
@@ -56,7 +62,7 @@ final class Settings {
     }
 
     var ctxSize: Int {
-        get { let v = defaults.integer(forKey: Key.ctxSize); return v > 0 ? v : 100000 }
+        get { let v = defaults.integer(forKey: Key.ctxSize); return v > 0 ? v : 32768 }
         set { defaults.set(newValue, forKey: Key.ctxSize) }
     }
 
