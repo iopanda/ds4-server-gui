@@ -39,6 +39,7 @@
 "settings.hint.port" = "預設：8000";
 "settings.hint.host" = "0.0.0.0 = 所有網路介面";
 "settings.hint.launch_at_login" = "登入 Mac 时自动啟動 DS4 Server。";
+"settings.hint.launch_at_login_unsupported" = "需要 Developer ID 簽名，目前版本不支援此功能。";
 "settings.hint.ctx" = "上下文越长占用内存越多。預設：32768 tokens（约 25000 字）。";
 "settings.hint.ssd_cache" = "GB，保留热点模型。留空自动。";
 "settings.hint.kv_size" = "磁碟占用 MB。預設：8192 MB（8 GB）";

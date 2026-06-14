@@ -29,16 +29,17 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
     private var kvDirField: NSTextField!
     private var kvSizeField: NSTextField!
 
+    private let W: CGFloat = 520
+
     init() {
         let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 500, height: 420),
+            contentRect: NSRect(x: 0, y: 0, width: W, height: 500),
             styleMask: [.titled, .closable],
             backing: .buffered,
             defer: false
         )
-        window.title = "DS4 Server Settings"
+        window.title = L("settings.window.title")
         window.center()
-        window.titlebarAppearsTransparent = false
         super.init(window: window)
         window.delegate = self
         buildUI()
@@ -52,253 +53,359 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
     private func buildUI() {
         guard let cv = window?.contentView else { return }
 
-        let tabView = NSTabView(frame: NSRect(x: 0, y: 50, width: 500, height: 360))
-        tabView.autoresizingMask = [.width, .height]
-        tabView.tabViewType = .topTabsBezelBorder
-        cv.addSubview(tabView)
-
-        // Tabs
-        let serverTab = NSTabViewItem(identifier: "server")
-        serverTab.label = L("settings.tab.server")
-        serverTab.view = buildServerTab()
-        tabView.addTabViewItem(serverTab)
-
-        let perfTab = NSTabViewItem(identifier: "performance")
-        perfTab.label = L("settings.tab.performance")
-        perfTab.view = buildPerformanceTab()
-        tabView.addTabViewItem(perfTab)
-
-        let storageTab = NSTabViewItem(identifier: "storage")
-        storageTab.label = L("settings.tab.storage")
-        storageTab.view = buildStorageTab()
-        tabView.addTabViewItem(storageTab)
-
-        // Bottom buttons
+        // ── Bottom buttons ────────────────────────────────────────────────
         let applyBtn = NSButton(title: L("settings.button.apply"),
                                 target: self, action: #selector(applyClicked))
         applyBtn.bezelStyle = .rounded
         applyBtn.keyEquivalent = "\r"
-        applyBtn.frame = NSRect(x: 386, y: 12, width: 100, height: 28)
+        applyBtn.translatesAutoresizingMaskIntoConstraints = false
         cv.addSubview(applyBtn)
 
         let cancelBtn = NSButton(title: L("settings.button.cancel"),
                                  target: self, action: #selector(cancelClicked))
-        cancelBtn.frame = NSRect(x: 306, y: 12, width: 74, height: 28)
+        cancelBtn.translatesAutoresizingMaskIntoConstraints = false
         cv.addSubview(cancelBtn)
+
+        // ── Tab view ──────────────────────────────────────────────────────
+        let tabView = NSTabView()
+        tabView.translatesAutoresizingMaskIntoConstraints = false
+        tabView.tabViewType = .topTabsBezelBorder
+        cv.addSubview(tabView)
+
+        let serverItem = NSTabViewItem(identifier: "server")
+        serverItem.label = L("settings.tab.server")
+        serverItem.view = buildServerTab()
+        tabView.addTabViewItem(serverItem)
+
+        let perfItem = NSTabViewItem(identifier: "performance")
+        perfItem.label = L("settings.tab.performance")
+        perfItem.view = buildPerformanceTab()
+        tabView.addTabViewItem(perfItem)
+
+        let storageItem = NSTabViewItem(identifier: "storage")
+        storageItem.label = L("settings.tab.storage")
+        storageItem.view = buildStorageTab()
+        tabView.addTabViewItem(storageItem)
+
+        // ── Auto Layout ───────────────────────────────────────────────────
+        NSLayoutConstraint.activate([
+            applyBtn.trailingAnchor.constraint(equalTo: cv.trailingAnchor, constant: -20),
+            applyBtn.bottomAnchor.constraint(equalTo: cv.bottomAnchor, constant: -16),
+            applyBtn.widthAnchor.constraint(equalToConstant: 110),
+
+            cancelBtn.trailingAnchor.constraint(equalTo: applyBtn.leadingAnchor, constant: -8),
+            cancelBtn.centerYAnchor.constraint(equalTo: applyBtn.centerYAnchor),
+            cancelBtn.widthAnchor.constraint(equalToConstant: 80),
+
+            tabView.topAnchor.constraint(equalTo: cv.topAnchor, constant: 12),
+            tabView.leadingAnchor.constraint(equalTo: cv.leadingAnchor, constant: 12),
+            tabView.trailingAnchor.constraint(equalTo: cv.trailingAnchor, constant: -12),
+            tabView.bottomAnchor.constraint(equalTo: applyBtn.topAnchor, constant: -16),
+        ])
     }
 
     // MARK: - Server Tab
 
     private func buildServerTab() -> NSView {
-        let v = NSView()
+        let container = NSView()
 
-        // Model file row
-        let modelGroup = makeGroup(title: L("settings.group.model"), frame: NSRect(x: 16, y: 196, width: 460, height: 72))
-        modelPathField = makeField(placeholder: L("settings.placeholder.model"), frame: NSRect(x: 12, y: 14, width: 364, height: 22))
-        let browseBtn = NSButton(title: L("settings.button.browse"), target: self, action: #selector(browseModelClicked))
-        browseBtn.frame = NSRect(x: 382, y: 14, width: 66, height: 22)
-        browseBtn.tag = 1
-        let modelDesc = makeLabel(L("settings.desc.model"), small: true)
-        modelDesc.frame = NSRect(x: 12, y: 38, width: 436, height: 16)
-        modelGroup.contentView?.addSubview(modelDesc)
-        modelGroup.contentView?.addSubview(modelPathField)
-        modelGroup.contentView?.addSubview(browseBtn)
-        v.addSubview(modelGroup)
+        // Model group
+        let modelBox = makeSection(title: L("settings.group.model"))
+        let modelDesc = makeNote(L("settings.desc.model"))
+        modelPathField = makeField(placeholder: L("settings.placeholder.model"))
+        let browseBtn = NSButton(title: L("settings.button.browse"),
+                                 target: self, action: #selector(browseModelClicked))
+        browseBtn.bezelStyle = .rounded
+        browseBtn.translatesAutoresizingMaskIntoConstraints = false
+
+        let modelRow = NSStackView(views: [modelPathField, browseBtn])
+        modelRow.orientation = .horizontal
+        modelRow.spacing = 8
+        modelRow.translatesAutoresizingMaskIntoConstraints = false
+        browseBtn.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        modelPathField.setContentHuggingPriority(.defaultLow, for: .horizontal)
+
+        let modelStack = vstack([modelDesc, modelRow], spacing: 8)
+        modelBox.contentView?.addSubview(modelStack)
+        pin(modelStack, to: modelBox.contentView!, insets: NSEdgeInsets(top: 8, left: 12, bottom: 12, right: 12))
 
         // Network group
-        let netGroup = makeGroup(title: L("settings.group.network"), frame: NSRect(x: 16, y: 80, width: 460, height: 106))
+        let netBox = makeSection(title: L("settings.group.network"))
 
-        // Port
-        let portLabel = makeLabel(L("settings.label.port"))
-        portLabel.frame = NSRect(x: 12, y: 64, width: 120, height: 20)
-        portField = makeField(placeholder: "8000", frame: NSRect(x: 136, y: 62, width: 80, height: 22))
-        let portHint = makeLabel(L("settings.hint.port"), small: true)
-        portHint.frame = NSRect(x: 224, y: 64, width: 220, height: 18)
-        portHint.textColor = .tertiaryLabelColor
+        portField = makeField(placeholder: "8000")
+        portField.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([portField.widthAnchor.constraint(equalToConstant: 80)])
 
-        // Host
-        let hostLabel = makeLabel(L("settings.label.host"))
-        hostLabel.frame = NSRect(x: 12, y: 36, width: 120, height: 20)
-        hostField = makeField(placeholder: "127.0.0.1", frame: NSRect(x: 136, y: 34, width: 160, height: 22))
-        let hostHint = makeLabel(L("settings.hint.host"), small: true)
-        hostHint.frame = NSRect(x: 302, y: 36, width: 142, height: 18)
-        hostHint.textColor = .tertiaryLabelColor
+        hostField = makeField(placeholder: "127.0.0.1")
+        hostField.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([hostField.widthAnchor.constraint(equalToConstant: 140)])
 
-        // CORS
-        corsCheck = makeCheckbox(L("settings.checkbox.cors_short"), frame: NSRect(x: 12, y: 8, width: 436, height: 20))
+        let portRow = formRow(label: L("settings.label.port"),
+                              control: portField,
+                              hint: L("settings.hint.port"))
+        let hostRow = formRow(label: L("settings.label.host"),
+                              control: hostField,
+                              hint: L("settings.hint.host"))
+        corsCheck = makeCheckbox(L("settings.checkbox.cors_short"))
 
-        for sub in [portLabel, portField!, portHint, hostLabel, hostField!, hostHint, corsCheck!] {
-            netGroup.contentView?.addSubview(sub)
-        }
-        v.addSubview(netGroup)
+        let netStack = vstack([portRow, hostRow, corsCheck], spacing: 10)
+        netBox.contentView?.addSubview(netStack)
+        pin(netStack, to: netBox.contentView!, insets: NSEdgeInsets(top: 8, left: 12, bottom: 12, right: 12))
 
-        // Launch at Login + hint
-        let systemGroup = makeGroup(title: L("settings.group.system"), frame: NSRect(x: 16, y: 16, width: 460, height: 56))
-        launchAtLoginCheck = makeCheckbox(L("settings.checkbox.launch_at_login_short"), frame: NSRect(x: 12, y: 22, width: 436, height: 20))
-        let loginHint = makeLabel(L("settings.hint.launch_at_login"), small: true)
-        loginHint.frame = NSRect(x: 30, y: 6, width: 420, height: 16)
-        loginHint.textColor = .tertiaryLabelColor
-        systemGroup.contentView?.addSubview(launchAtLoginCheck)
-        systemGroup.contentView?.addSubview(loginHint)
-        v.addSubview(systemGroup)
+        // System group
+        let sysBox = makeSection(title: L("settings.group.system"))
+        launchAtLoginCheck = makeCheckbox(L("settings.checkbox.launch_at_login_short"))
+        let supported = LaunchAtLoginManager.shared.isSupported
+        launchAtLoginCheck.isEnabled = supported
+        let loginHintText = supported
+            ? L("settings.hint.launch_at_login")
+            : L("settings.hint.launch_at_login_unsupported")
+        let loginNote = makeNote(loginHintText)
 
-        return v
+        let sysStack = vstack([launchAtLoginCheck, loginNote], spacing: 4)
+        sysBox.contentView?.addSubview(sysStack)
+        pin(sysStack, to: sysBox.contentView!, insets: NSEdgeInsets(top: 8, left: 12, bottom: 12, right: 12))
+
+        // Compose
+        let outer = vstack([modelBox, netBox, sysBox], spacing: 12)
+        container.addSubview(outer)
+        pin(outer, to: container, insets: NSEdgeInsets(top: 16, left: 16, bottom: 16, right: 16))
+
+        return container
     }
 
     // MARK: - Performance Tab
 
     private func buildPerformanceTab() -> NSView {
-        let v = NSView()
+        let container = NSView()
 
-        // Context & Thinking
-        let ctxGroup = makeGroup(title: L("settings.group.context"), frame: NSRect(x: 16, y: 196, width: 460, height: 100))
+        // Context group
+        let ctxBox = makeSection(title: L("settings.group.context"))
+        ctxField = makeField(placeholder: "32768")
+        ctxField.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([ctxField.widthAnchor.constraint(equalToConstant: 100)])
 
-        let ctxLabel = makeLabel(L("settings.label.ctx_short"))
-        ctxLabel.frame = NSRect(x: 12, y: 56, width: 160, height: 20)
-        ctxField = makeField(placeholder: "32768", frame: NSRect(x: 176, y: 54, width: 100, height: 22))
-        let ctxHint = makeLabel(L("settings.hint.ctx"), small: true)
-        ctxHint.frame = NSRect(x: 12, y: 36, width: 436, height: 18)
-        ctxHint.textColor = .tertiaryLabelColor
+        let ctxRow = formRow(label: L("settings.label.ctx_short"),
+                             control: ctxField,
+                             hint: nil)
+        let ctxNote = makeNote(L("settings.hint.ctx"))
+        noThinkCheck = makeCheckbox(L("settings.checkbox.nothink_short"))
+        let ctxStack = vstack([ctxRow, ctxNote, noThinkCheck], spacing: 8)
+        ctxBox.contentView?.addSubview(ctxStack)
+        pin(ctxStack, to: ctxBox.contentView!, insets: NSEdgeInsets(top: 8, left: 12, bottom: 12, right: 12))
 
-        noThinkCheck = makeCheckbox(L("settings.checkbox.nothink_short"), frame: NSRect(x: 12, y: 10, width: 436, height: 20))
+        // GPU Power group
+        let gpuBox = makeSection(title: L("settings.group.gpu"))
+        let gpuNote = makeNote(L("settings.desc.power"))
 
-        for sub in [ctxLabel, ctxField!, ctxHint, noThinkCheck!] {
-            ctxGroup.contentView?.addSubview(sub)
-        }
-        v.addSubview(ctxGroup)
+        let sliderRow = NSStackView()
+        sliderRow.orientation = .horizontal
+        sliderRow.spacing = 8
+        sliderRow.translatesAutoresizingMaskIntoConstraints = false
 
-        // GPU Power
-        let gpuGroup = makeGroup(title: L("settings.group.gpu"), frame: NSRect(x: 16, y: 126, width: 460, height: 62))
-        let powerDesc = makeLabel(L("settings.desc.power"), small: true)
-        powerDesc.frame = NSRect(x: 12, y: 36, width: 436, height: 16)
-        powerDesc.textColor = .tertiaryLabelColor
-        powerSlider = NSSlider(frame: NSRect(x: 12, y: 12, width: 360, height: 22))
+        powerSlider = NSSlider()
         powerSlider.minValue = 10; powerSlider.maxValue = 100
         powerSlider.target = self; powerSlider.action = #selector(powerChanged)
+        powerSlider.translatesAutoresizingMaskIntoConstraints = false
+
         powerLabel = NSTextField(labelWithString: "100%")
-        powerLabel.frame = NSRect(x: 378, y: 13, width: 70, height: 20)
-        powerLabel.alignment = .left
-        for sub in [powerDesc, powerSlider!, powerLabel!] { gpuGroup.contentView?.addSubview(sub) }
-        v.addSubview(gpuGroup)
+        powerLabel.font = NSFont.monospacedDigitSystemFont(ofSize: 13, weight: .regular)
+        powerLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([powerLabel.widthAnchor.constraint(equalToConstant: 44)])
 
-        // SSD Streaming
-        let ssdGroup = makeGroup(title: L("settings.group.ssd"), frame: NSRect(x: 16, y: 16, width: 460, height: 102))
-        ssdStreamingCheck = makeCheckbox(L("settings.checkbox.ssd_short"), frame: NSRect(x: 12, y: 68, width: 436, height: 20))
-        let ssdDesc = makeLabel(L("settings.desc.ssd"), small: true)
-        ssdDesc.frame = NSRect(x: 30, y: 52, width: 420, height: 16)
-        ssdDesc.textColor = .tertiaryLabelColor
+        sliderRow.addArrangedSubview(powerSlider)
+        sliderRow.addArrangedSubview(powerLabel)
 
-        let cacheLabel = makeLabel(L("settings.label.ssd_cache_short"))
-        cacheLabel.frame = NSRect(x: 12, y: 26, width: 160, height: 20)
-        ssdCacheField = makeField(placeholder: L("settings.placeholder.ssd_cache"), frame: NSRect(x: 176, y: 24, width: 80, height: 22))
-        let cacheHint = makeLabel(L("settings.hint.ssd_cache"), small: true)
-        cacheHint.frame = NSRect(x: 262, y: 26, width: 190, height: 18)
-        cacheHint.textColor = .tertiaryLabelColor
+        let gpuStack = vstack([gpuNote, sliderRow], spacing: 8)
+        gpuBox.contentView?.addSubview(gpuStack)
+        pin(gpuStack, to: gpuBox.contentView!, insets: NSEdgeInsets(top: 8, left: 12, bottom: 12, right: 12))
 
-        let advLabel = makeLabel(L("settings.label.advanced"))
-        advLabel.frame = NSRect(x: 12, y: 4, width: 160, height: 16)
-        advLabel.textColor = .tertiaryLabelColor
-        advLabel.font = NSFont.systemFont(ofSize: 10)
-        threadsField = makeField(placeholder: "auto", frame: NSRect(x: 176, y: 2, width: 60, height: 18))
-        threadsField.font = NSFont.systemFont(ofSize: 11)
-        prefillChunkField = makeField(placeholder: "auto", frame: NSRect(x: 248, y: 2, width: 70, height: 18))
-        prefillChunkField.font = NSFont.systemFont(ofSize: 11)
-        let tLabel = makeLabel("threads", small: true); tLabel.frame = NSRect(x: 176, y: 2, width: 0, height: 0) // invisible spacer
+        // SSD Streaming group
+        let ssdBox = makeSection(title: L("settings.group.ssd"))
+        ssdStreamingCheck = makeCheckbox(L("settings.checkbox.ssd_short"))
+        let ssdNote = makeNote(L("settings.desc.ssd"))
 
-        for sub in [ssdStreamingCheck!, ssdDesc, cacheLabel, ssdCacheField!, cacheHint, advLabel, threadsField!, prefillChunkField!] {
-            ssdGroup.contentView?.addSubview(sub)
-        }
+        ssdCacheField = makeField(placeholder: L("settings.placeholder.ssd_cache"))
+        ssdCacheField.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([ssdCacheField.widthAnchor.constraint(equalToConstant: 80)])
+        let cacheRow = formRow(label: L("settings.label.ssd_cache_short"),
+                               control: ssdCacheField,
+                               hint: L("settings.hint.ssd_cache"))
 
-        // Replace advanced row with cleaner layout
-        let thr = makeLabel("Threads:", small: true); thr.frame = NSRect(x: 12, y: 3, width: 55, height: 16); thr.textColor = .secondaryLabelColor
-        let pc  = makeLabel("Prefill:", small: true);  pc.frame  = NSRect(x: 154, y: 3, width: 48, height: 16); pc.textColor = .secondaryLabelColor
-        threadsField.frame = NSRect(x: 70, y: 2, width: 76, height: 18)
-        prefillChunkField.frame = NSRect(x: 206, y: 2, width: 76, height: 18)
-        ssdGroup.contentView?.addSubview(thr)
-        ssdGroup.contentView?.addSubview(pc)
+        // Threads + Prefill on one row
+        threadsField = makeField(placeholder: "auto")
+        prefillChunkField = makeField(placeholder: "auto")
+        threadsField.translatesAutoresizingMaskIntoConstraints = false
+        prefillChunkField.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            threadsField.widthAnchor.constraint(equalToConstant: 80),
+            prefillChunkField.widthAnchor.constraint(equalToConstant: 80),
+        ])
+        let tLabel = makeCaption("Threads")
+        let pLabel = makeCaption("Prefill chunk")
+        let advRow = NSStackView(views: [tLabel, threadsField, spacer(16), pLabel, prefillChunkField])
+        advRow.orientation = .horizontal
+        advRow.spacing = 6
+        advRow.translatesAutoresizingMaskIntoConstraints = false
 
-        v.addSubview(ssdGroup)
-        return v
+        let ssdStack = vstack([ssdStreamingCheck, ssdNote, cacheRow, advRow], spacing: 8)
+        ssdBox.contentView?.addSubview(ssdStack)
+        pin(ssdStack, to: ssdBox.contentView!, insets: NSEdgeInsets(top: 8, left: 12, bottom: 12, right: 12))
+
+        let outer = vstack([ctxBox, gpuBox, ssdBox], spacing: 12)
+        container.addSubview(outer)
+        pin(outer, to: container, insets: NSEdgeInsets(top: 16, left: 16, bottom: 16, right: 16))
+
+        return container
     }
 
     // MARK: - Storage Tab
 
     private func buildStorageTab() -> NSView {
-        let v = NSView()
+        let container = NSView()
 
-        let kvGroup = makeGroup(title: L("settings.group.kv"), frame: NSRect(x: 16, y: 160, width: 460, height: 140))
+        let kvBox = makeSection(title: L("settings.group.kv"))
+        diskKVCheck = makeCheckbox(L("settings.checkbox.disk_kv_short"))
+        let kvNote = makeNote(L("settings.desc.kv"))
 
-        diskKVCheck = makeCheckbox(L("settings.checkbox.disk_kv_short"), frame: NSRect(x: 12, y: 106, width: 436, height: 20))
-        let kvDesc = makeLabel(L("settings.desc.kv"), small: true)
-        kvDesc.frame = NSRect(x: 30, y: 90, width: 420, height: 16)
-        kvDesc.textColor = .tertiaryLabelColor
+        kvDirField = makeField(placeholder: L("settings.placeholder.kv_dir"))
+        let kvBrowseBtn = NSButton(title: L("settings.button.browse"),
+                                   target: self, action: #selector(browseKVClicked))
+        kvBrowseBtn.bezelStyle = .rounded
+        kvBrowseBtn.translatesAutoresizingMaskIntoConstraints = false
+        kvBrowseBtn.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        kvDirField.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        let dirRow = NSStackView(views: [kvDirField, kvBrowseBtn])
+        dirRow.orientation = .horizontal
+        dirRow.spacing = 8
+        dirRow.translatesAutoresizingMaskIntoConstraints = false
+        let dirFormRow = formRow(label: L("settings.label.kv_cache"),
+                                 control: dirRow,
+                                 hint: nil)
 
-        let dirLabel = makeLabel(L("settings.label.kv_cache"))
-        dirLabel.frame = NSRect(x: 12, y: 60, width: 110, height: 20)
-        kvDirField = makeField(placeholder: L("settings.placeholder.kv_dir"), frame: NSRect(x: 126, y: 58, width: 258, height: 22))
-        let kvBrowseBtn = NSButton(title: L("settings.button.browse"), target: self, action: #selector(browseKVClicked))
-        kvBrowseBtn.frame = NSRect(x: 390, y: 58, width: 60, height: 22)
+        kvSizeField = makeField(placeholder: "8192")
+        kvSizeField.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([kvSizeField.widthAnchor.constraint(equalToConstant: 90)])
+        let sizeRow = formRow(label: L("settings.label.kv_size_short"),
+                              control: kvSizeField,
+                              hint: L("settings.hint.kv_size"))
+        let pathNote = makeNote(L("settings.hint.kv_path"))
 
-        let sizeLabel = makeLabel(L("settings.label.kv_size_short"))
-        sizeLabel.frame = NSRect(x: 12, y: 30, width: 110, height: 20)
-        kvSizeField = makeField(placeholder: "8192", frame: NSRect(x: 126, y: 28, width: 100, height: 22))
-        let sizeHint = makeLabel(L("settings.hint.kv_size"), small: true)
-        sizeHint.frame = NSRect(x: 232, y: 30, width: 220, height: 18)
-        sizeHint.textColor = .tertiaryLabelColor
-
-        let kvHint = makeLabel(L("settings.hint.kv_path"), small: true)
-        kvHint.frame = NSRect(x: 12, y: 8, width: 436, height: 18)
-        kvHint.textColor = .tertiaryLabelColor
-
-        for sub in [diskKVCheck!, kvDesc, dirLabel, kvDirField!, kvBrowseBtn,
-                    sizeLabel, kvSizeField!, sizeHint, kvHint] {
-            kvGroup.contentView?.addSubview(sub)
-        }
-        v.addSubview(kvGroup)
+        let kvStack = vstack([diskKVCheck, kvNote, dirFormRow, sizeRow, pathNote], spacing: 8)
+        kvBox.contentView?.addSubview(kvStack)
+        pin(kvStack, to: kvBox.contentView!, insets: NSEdgeInsets(top: 8, left: 12, bottom: 12, right: 12))
 
         // Info box
-        let infoBox = makeGroup(title: L("settings.group.info"), frame: NSRect(x: 16, y: 80, width: 460, height: 72))
-        let infoText = makeLabel(L("settings.info.kv"), small: true)
-        infoText.frame = NSRect(x: 12, y: 8, width: 436, height: 50)
-        infoText.textColor = .secondaryLabelColor
-        infoText.maximumNumberOfLines = 3
+        let infoBox = makeSection(title: L("settings.group.info"))
+        let infoText = makeNote(L("settings.info.kv"))
+        infoText.maximumNumberOfLines = 0
         infoBox.contentView?.addSubview(infoText)
-        v.addSubview(infoBox)
+        pin(infoText, to: infoBox.contentView!, insets: NSEdgeInsets(top: 8, left: 12, bottom: 12, right: 12))
 
-        return v
+        let outer = vstack([kvBox, infoBox], spacing: 12)
+        container.addSubview(outer)
+        pin(outer, to: container, insets: NSEdgeInsets(top: 16, left: 16, bottom: 16, right: 16))
+
+        return container
     }
 
-    // MARK: - Helpers
+    // MARK: - Layout Helpers
 
-    private func makeGroup(title: String, frame: NSRect) -> NSBox {
-        let b = NSBox(frame: frame)
+    private func vstack(_ views: [NSView], spacing: CGFloat) -> NSStackView {
+        let s = NSStackView(views: views)
+        s.orientation = .vertical
+        s.alignment = .leading
+        s.spacing = spacing
+        s.translatesAutoresizingMaskIntoConstraints = false
+        // Make each arranged subview fill the full width
+        for v in views {
+            s.addConstraint(NSLayoutConstraint(
+                item: v, attribute: .width, relatedBy: .equal,
+                toItem: s, attribute: .width, multiplier: 1, constant: 0))
+        }
+        return s
+    }
+
+    private func makeSection(title: String) -> NSBox {
+        let b = NSBox()
         b.title = title
-        b.titleFont = NSFont.systemFont(ofSize: 11, weight: .medium)
+        b.titleFont = NSFont.systemFont(ofSize: 11, weight: .semibold)
+        b.translatesAutoresizingMaskIntoConstraints = false
         return b
     }
 
-    private func makeLabel(_ text: String, small: Bool = false) -> NSTextField {
-        let l = NSTextField(labelWithString: text)
-        l.font = NSFont.systemFont(ofSize: small ? 11 : NSFont.systemFontSize)
-        return l
-    }
-
-    private func makeField(placeholder: String, frame: NSRect) -> NSTextField {
-        let f = NSTextField(frame: frame)
+    private func makeField(placeholder: String) -> NSTextField {
+        let f = NSTextField()
         f.placeholderString = placeholder
         f.bezelStyle = .roundedBezel
         f.cell?.wraps = false
         f.cell?.isScrollable = true
         f.usesSingleLineMode = true
-        f.lineBreakMode = .byTruncatingMiddle
+        f.translatesAutoresizingMaskIntoConstraints = false
         return f
     }
 
-    private func makeCheckbox(_ title: String, frame: NSRect) -> NSButton {
+    private func makeCheckbox(_ title: String) -> NSButton {
         let b = NSButton(checkboxWithTitle: title, target: nil, action: nil)
-        b.frame = frame
-        b.font = NSFont.systemFont(ofSize: NSFont.systemFontSize)
+        b.translatesAutoresizingMaskIntoConstraints = false
         return b
+    }
+
+    private func makeNote(_ text: String) -> NSTextField {
+        let l = NSTextField(wrappingLabelWithString: text)
+        l.font = NSFont.systemFont(ofSize: 11)
+        l.textColor = .secondaryLabelColor
+        l.translatesAutoresizingMaskIntoConstraints = false
+        return l
+    }
+
+    private func makeCaption(_ text: String) -> NSTextField {
+        let l = NSTextField(labelWithString: text)
+        l.font = NSFont.systemFont(ofSize: 11)
+        l.textColor = .secondaryLabelColor
+        l.translatesAutoresizingMaskIntoConstraints = false
+        l.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        return l
+    }
+
+    /// label | control  hint
+    private func formRow(label labelText: String, control: NSView, hint: String?) -> NSStackView {
+        let lbl = NSTextField(labelWithString: labelText)
+        lbl.font = NSFont.systemFont(ofSize: NSFont.systemFontSize)
+        lbl.translatesAutoresizingMaskIntoConstraints = false
+        lbl.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        NSLayoutConstraint.activate([lbl.widthAnchor.constraint(equalToConstant: 160)])
+
+        var arranged: [NSView] = [lbl, control]
+        if let hintText = hint {
+            let h = makeCaption(hintText)
+            h.setContentHuggingPriority(.defaultLow, for: .horizontal)
+            arranged.append(h)
+        }
+        let row = NSStackView(views: arranged)
+        row.orientation = .horizontal
+        row.spacing = 10
+        row.alignment = .centerY
+        row.translatesAutoresizingMaskIntoConstraints = false
+        return row
+    }
+
+    private func spacer(_ w: CGFloat) -> NSView {
+        let v = NSView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([v.widthAnchor.constraint(equalToConstant: w)])
+        return v
+    }
+
+    private func pin(_ child: NSView, to parent: NSView,
+                     insets i: NSEdgeInsets = NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)) {
+        child.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            child.topAnchor.constraint(equalTo: parent.topAnchor, constant: i.top),
+            child.leadingAnchor.constraint(equalTo: parent.leadingAnchor, constant: i.left),
+            child.trailingAnchor.constraint(equalTo: parent.trailingAnchor, constant: -i.right),
+            child.bottomAnchor.constraint(lessThanOrEqualTo: parent.bottomAnchor, constant: -i.bottom),
+        ])
     }
 
     // MARK: - Load / Save
@@ -358,7 +465,6 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
         panel.title = L("settings.panel.kv_dir")
         panel.canChooseFiles = false; panel.canChooseDirectories = true
         panel.canCreateDirectories = true
-        panel.allowsMultipleSelection = false
         guard panel.runModal() == .OK, let url = panel.url else { return }
         kvDirField.stringValue = url.path
     }
@@ -367,13 +473,7 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
         powerLabel.stringValue = "\(Int(powerSlider.doubleValue))%"
     }
 
-    @objc private func applyClicked() {
-        saveValues()
-        close()
-        onApply?()
-    }
-
+    @objc private func applyClicked() { saveValues(); close(); onApply?() }
     @objc private func cancelClicked() { close() }
-
     func windowShouldClose(_ sender: NSWindow) -> Bool { true }
 }

@@ -49,6 +49,7 @@
 "settings.hint.port" = "Default: 8000";
 "settings.hint.host" = "0.0.0.0 = all interfaces";
 "settings.hint.launch_at_login" = "Automatically start DS4 Server when you log in.";
+"settings.hint.launch_at_login_unsupported" = "Requires a Developer ID signature. Not available in this build.";
 "settings.hint.ctx" = "Longer context uses more memory. Default: 32768 tokens (~25,000 words).";
 "settings.hint.ssd_cache" = "GB to keep hot. Leave blank for auto.";
 "settings.hint.kv_size" = "MB on disk. Default: 8192 MB (8 GB)";
