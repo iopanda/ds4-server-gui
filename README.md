@@ -58,6 +58,15 @@ exec "$HOME/.local/bin/claude" "$@"
 - macOS 13.5+, Apple Silicon
 - A DeepSeek V4 Flash GGUF model file (e.g. from [antirez/deepseek-v4-gguf](https://huggingface.co/antirez/deepseek-v4-gguf))
 
+## Acknowledgements
+
+This project is built on top of the excellent work by **[@antirez](https://github.com/antirez)**.
+
+- [**ds4**](https://github.com/antirez/ds4) — the inference engine that powers this app. antirez wrote the entire C/Metal server from scratch, making it possible to run DeepSeek V4 Flash locally on Apple Silicon with remarkable efficiency.
+- [**deepseek-v4-gguf**](https://huggingface.co/antirez/deepseek-v4-gguf) — the quantized model files hosted on Hugging Face.
+
+ds4-server-gui is nothing more than a macOS GUI wrapper around his work. All the hard parts — inference, Metal GPU acceleration, the HTTP server — are his. Please go check out his projects and give him a ⭐!
+
 ## License
 
 MIT
