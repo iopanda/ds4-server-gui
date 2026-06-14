@@ -1,4 +1,5 @@
 import AppKit
+import ServiceManagement
 
 // MARK: - SettingsWindowController
 
@@ -16,17 +17,21 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
     private var corsCheck: NSButton!
     private var noThinkCheck: NSButton!
     private var launchAtLoginCheck: NSButton!
+    private var ssdStreamingCheck: NSButton!
+    private var ssdCacheField: NSTextField!
+    private var threadsField: NSTextField!
+    private var prefillChunkField: NSTextField!
     private var powerSlider: NSSlider!
     private var powerLabel: NSTextField!
 
     private let W: CGFloat = 480
-    private let H: CGFloat = 492
-    private let pad: CGFloat  = 20
+    private let H: CGFloat = 620
+    private let pad: CGFloat   = 20
     private let labelW: CGFloat = 140
-    private let gap: CGFloat  = 8
-    private let btnW: CGFloat = 56
+    private let gap: CGFloat   = 8
+    private let btnW: CGFloat  = 56
     private let btnGap: CGFloat = 6
-    private let rowH: CGFloat = 32
+    private let rowH: CGFloat  = 32
 
     private var fx: CGFloat { pad + labelW + gap }
     private var fieldWBtn: CGFloat { W - fx - pad - btnGap - btnW }
@@ -93,6 +98,13 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
             return b
         }
 
+        func separator(at yy: CGFloat) {
+            let s = NSBox(frame: NSRect(x: pad, y: yy + 8, width: W - pad * 2, height: 1))
+            s.boxType = .separator
+            cv.addSubview(s)
+        }
+
+        // ── Basic ──────────────────────────────────────────────────────────
         label(L("settings.label.model_path"), at: y)
         modelPathField = field(at: y, width: fieldWBtn)
         browseBtn(at: y, tag: 1)
@@ -110,10 +122,8 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
         ctxField = field(at: y, width: 110)
         y -= rowH
 
-        let sep = NSBox(frame: NSRect(x: pad, y: y + 8, width: W - pad * 2, height: 1))
-        sep.boxType = .separator
-        cv.addSubview(sep)
-        y -= 16
+        // ── KV Cache ───────────────────────────────────────────────────────
+        separator(at: y); y -= 16
 
         diskKVCheck = checkbox(L("settings.checkbox.disk_kv"), at: y)
         y -= 28
@@ -127,10 +137,8 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
         kvSizeField = field(at: y, width: 90)
         y -= rowH
 
-        let sep2 = NSBox(frame: NSRect(x: pad, y: y + 8, width: W - pad * 2, height: 1))
-        sep2.boxType = .separator
-        cv.addSubview(sep2)
-        y -= 16
+        // ── Misc ───────────────────────────────────────────────────────────
+        separator(at: y); y -= 16
 
         corsCheck = checkbox(L("settings.checkbox.cors"), at: y)
         y -= 28
@@ -140,6 +148,27 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
 
         launchAtLoginCheck = checkbox(L("settings.checkbox.launch_at_login"), at: y)
         y -= 34
+
+        // ── Advanced / Performance ─────────────────────────────────────────
+        separator(at: y); y -= 16
+
+        ssdStreamingCheck = checkbox(L("settings.checkbox.ssd_streaming"), at: y)
+        y -= 28
+
+        label(L("settings.label.ssd_cache"), at: y)
+        ssdCacheField = field(at: y, width: 80)
+        y -= rowH
+
+        label(L("settings.label.threads"), at: y)
+        threadsField = field(at: y, width: 80)
+        y -= rowH
+
+        label(L("settings.label.prefill_chunk"), at: y)
+        prefillChunkField = field(at: y, width: 80)
+        y -= rowH
+
+        // ── GPU Power ──────────────────────────────────────────────────────
+        separator(at: y); y -= 16
 
         label(L("settings.label.gpu_power"), at: y)
         let sliderW = fieldWFull - 46
@@ -155,11 +184,12 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
         cv.addSubview(powerLabel)
         y -= 44
 
+        // ── Buttons ────────────────────────────────────────────────────────
+        let applyW: CGFloat = 100
         let applyBtn = NSButton(title: L("settings.button.apply"),
                                 target: self, action: #selector(applyClicked))
         applyBtn.bezelStyle = .rounded
         applyBtn.keyEquivalent = "\r"
-        let applyW: CGFloat = 100
         applyBtn.frame = NSRect(x: W - pad - applyW, y: y, width: applyW, height: 26)
         cv.addSubview(applyBtn)
 
@@ -182,24 +212,34 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
         kvSizeField.stringValue     = String(s.kvDiskSpaceMB)
         corsCheck.state             = s.enableCORS ? .on : .off
         noThinkCheck.state          = s.noThink ? .on : .off
-        launchAtLoginCheck.state    = LaunchAtLoginManager.shared.isEnabled ? .on : .off
+        launchAtLoginCheck.state    = (SMAppService.mainApp.status == .enabled) ? .on : .off
+        ssdStreamingCheck.state     = s.enableSSDStreaming ? .on : .off
+        ssdCacheField.stringValue   = s.ssdStreamingCacheGB > 0 ? String(s.ssdStreamingCacheGB) : ""
+        threadsField.stringValue    = s.threads > 0 ? String(s.threads) : ""
+        prefillChunkField.stringValue = s.prefillChunk > 0 ? String(s.prefillChunk) : ""
         powerSlider.doubleValue     = Double(s.powerPercent)
         powerLabel.stringValue      = "\(s.powerPercent)%"
     }
 
     private func saveValues() {
         let s = Settings.shared
-        s.modelPath     = modelPathField.stringValue.trimmingCharacters(in: .whitespaces)
-        s.port          = Int(portField.stringValue) ?? 8000
-        s.host          = hostField.stringValue.trimmingCharacters(in: .whitespaces)
-        s.ctxSize       = Int(ctxField.stringValue) ?? 100000
-        s.enableDiskKV  = diskKVCheck.state == .on
-        s.kvDiskDir     = kvDirField.stringValue.trimmingCharacters(in: .whitespaces)
-        s.kvDiskSpaceMB = Int(kvSizeField.stringValue) ?? 8192
-        s.enableCORS    = corsCheck.state == .on
-        s.noThink       = noThinkCheck.state == .on
-        LaunchAtLoginManager.shared.setEnabled(launchAtLoginCheck.state == .on)
-        s.powerPercent  = Int(powerSlider.doubleValue)
+        s.modelPath          = modelPathField.stringValue.trimmingCharacters(in: .whitespaces)
+        s.port               = Int(portField.stringValue) ?? 8000
+        s.host               = hostField.stringValue.trimmingCharacters(in: .whitespaces)
+        s.ctxSize            = Int(ctxField.stringValue) ?? 32768
+        s.enableDiskKV       = diskKVCheck.state == .on
+        s.kvDiskDir          = kvDirField.stringValue.trimmingCharacters(in: .whitespaces)
+        s.kvDiskSpaceMB      = Int(kvSizeField.stringValue) ?? 8192
+        s.enableCORS         = corsCheck.state == .on
+        s.noThink            = noThinkCheck.state == .on
+        s.enableSSDStreaming  = ssdStreamingCheck.state == .on
+        s.ssdStreamingCacheGB = Int(ssdCacheField.stringValue.trimmingCharacters(in: .whitespaces)) ?? 0
+        s.threads            = Int(threadsField.stringValue.trimmingCharacters(in: .whitespaces)) ?? 0
+        s.prefillChunk       = Int(prefillChunkField.stringValue.trimmingCharacters(in: .whitespaces)) ?? 0
+        s.powerPercent       = Int(powerSlider.doubleValue)
+        // Launch at Login via SMAppService
+        let loginEnabled = launchAtLoginCheck.state == .on
+        LaunchAtLoginManager.shared.setEnabled(loginEnabled)
     }
 
     // MARK: - Actions

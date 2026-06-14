@@ -27,6 +27,10 @@
 "settings.checkbox.cors" = "Enable CORS (allow browser cross-origin access)";
 "settings.checkbox.nothink" = "Disable Thinking Mode (--nothink)";
 "settings.checkbox.launch_at_login" = "Launch at Login";
+"settings.checkbox.ssd_streaming" = "Enable SSD Streaming (saves GPU memory, slower)";
+"settings.label.ssd_cache" = "SSD Cache (GB):";
+"settings.label.threads" = "CPU Threads:";
+"settings.label.prefill_chunk" = "Prefill Chunk:";
 "settings.button.browse" = "Browse…";
 "settings.button.apply" = "Save & Apply";
 "settings.button.cancel" = "Cancel";

@@ -168,6 +168,14 @@ class ServerManager {
         }
         if settings.enableCORS { args += ["--cors"] }
         if settings.powerPercent < 100 { args += ["--power", String(settings.powerPercent)] }
+        if settings.enableSSDStreaming {
+            args += ["--ssd-streaming"]
+            if settings.ssdStreamingCacheGB > 0 {
+                args += ["--ssd-streaming-cache-experts", "\(settings.ssdStreamingCacheGB)GB"]
+            }
+        }
+        if settings.threads > 0 { args += ["--threads", String(settings.threads)] }
+        if settings.prefillChunk > 0 { args += ["--prefill-chunk", String(settings.prefillChunk)] }
         return args
     }
 

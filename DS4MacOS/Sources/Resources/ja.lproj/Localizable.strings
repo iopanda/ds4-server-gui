@@ -27,6 +27,10 @@
 "settings.checkbox.cors" = "CORS を有効にする（ブラウザのクロスオリジンアクセスを許可）";
 "settings.checkbox.nothink" = "Thinking モードを無効にする (--nothink)";
 "settings.checkbox.launch_at_login" = "ログイン時に起動";
+"settings.checkbox.ssd_streaming" = "SSD ストリーミングを有効にする（VRAM 節約、速度低下）";
+"settings.label.ssd_cache" = "SSD キャッシュ (GB):";
+"settings.label.threads" = "CPU スレッド数:";
+"settings.label.prefill_chunk" = "Prefill チャンクサイズ:";
 "settings.button.browse" = "選択…";
 "settings.button.apply" = "保存して適用";
 "settings.button.cancel" = "キャンセル";

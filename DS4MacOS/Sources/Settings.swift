@@ -43,6 +43,10 @@ final class Settings {
         static let enableCORS       = "enableCORS"
         static let noThink          = "noThink"
         static let powerPercent     = "powerPercent"
+        static let enableSSDStreaming   = "enableSSDStreaming"
+        static let ssdStreamingCacheGB  = "ssdStreamingCacheGB"
+        static let threads              = "threads"
+        static let prefillChunk         = "prefillChunk"
     }
 
     var modelPath: String {
@@ -94,5 +98,31 @@ final class Settings {
     var powerPercent: Int {
         get { let v = defaults.integer(forKey: Key.powerPercent); return v > 0 ? v : 100 }
         set { defaults.set(min(100, max(1, newValue)), forKey: Key.powerPercent) }
+    }
+
+    // MARK: - Advanced / Performance
+
+    /// Enable --ssd-streaming: stream expert weights from SSD on demand instead of full GPU residency.
+    var enableSSDStreaming: Bool {
+        get { defaults.bool(forKey: Key.enableSSDStreaming) }
+        set { defaults.set(newValue, forKey: Key.enableSSDStreaming) }
+    }
+
+    /// SSD streaming expert cache size in GB. 0 = let engine decide (default: ~80% Metal working set).
+    var ssdStreamingCacheGB: Int {
+        get { defaults.integer(forKey: Key.ssdStreamingCacheGB) }
+        set { defaults.set(max(0, newValue), forKey: Key.ssdStreamingCacheGB) }
+    }
+
+    /// CPU helper thread count. 0 = engine default.
+    var threads: Int {
+        get { defaults.integer(forKey: Key.threads) }
+        set { defaults.set(max(0, newValue), forKey: Key.threads) }
+    }
+
+    /// Metal graph prefill chunk size. 0 = auto (4096 or 8192 depending on context).
+    var prefillChunk: Int {
+        get { defaults.integer(forKey: Key.prefillChunk) }
+        set { defaults.set(max(0, newValue), forKey: Key.prefillChunk) }
     }
 }

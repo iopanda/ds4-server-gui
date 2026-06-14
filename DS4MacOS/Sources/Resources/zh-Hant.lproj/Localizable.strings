@@ -27,6 +27,10 @@
 "settings.checkbox.cors" = "啟用 CORS（允許瀏覽器跨來源存取）";
 "settings.checkbox.nothink" = "停用 Thinking 模式 (--nothink)";
 "settings.checkbox.launch_at_login" = "登入時自動啟動";
+"settings.checkbox.ssd_streaming" = "啟用 SSD 串流載入（節省顯存，速度略慢）";
+"settings.label.ssd_cache" = "SSD 快取 (GB)：";
+"settings.label.threads" = "CPU 執行緒數：";
+"settings.label.prefill_chunk" = "Prefill 區塊大小：";
 "settings.button.browse" = "選擇…";
 "settings.button.apply" = "儲存並套用";
 "settings.button.cancel" = "取消";

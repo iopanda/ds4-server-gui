@@ -27,6 +27,10 @@
 "settings.checkbox.cors" = "启用 CORS（允许浏览器跨域访问）";
 "settings.checkbox.nothink" = "禁用 Thinking 模式 (--nothink)";
 "settings.checkbox.launch_at_login" = "开机自动启动";
+"settings.checkbox.ssd_streaming" = "启用 SSD 流式加载（节省显存，速度略慢）";
+"settings.label.ssd_cache" = "SSD 缓存 (GB):";
+"settings.label.threads" = "CPU 线程数:";
+"settings.label.prefill_chunk" = "Prefill 块大小:";
 "settings.button.browse" = "选择…";
 "settings.button.apply" = "保存并应用";
 "settings.button.cancel" = "取消";
